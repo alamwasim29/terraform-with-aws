@@ -13,3 +13,24 @@ locals {
     environment = join("-", slice(split("/", path.cwd), 6, 7))
   }
 }
+
+locals {
+  security_groups = {
+    bastion_sg = {
+      name                = "bastion-sg"
+      description         = "security group for ssh open for the entire internet."
+      ingress_rules       = ["ssh-tcp"]
+      ingress_cidr_blocks = ["0.0.0.0/0"]
+      egress_rules        = ["all-all"]
+      tags                = local.common_tags
+    }
+    private_sg = {
+      name                = "bastion-sg"
+      description         = "security group for Http and ssh port open for the entire vpc cidr."
+      ingress_rules       = ["ssh-tcp", "http-80-tcp"]
+      ingress_cidr_blocks = [local.vpc_cidr_block]
+      egress_rules        = ["all-all"]
+      tags                = local.common_tags
+    }
+  }
+}

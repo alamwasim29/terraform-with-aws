@@ -1,6 +1,6 @@
 module "security" {
   source      = "terraform-aws-modules/security-group/aws"
-  version     = "3.18.0"
+  version     = "4.16.0"
   for_each    = local.security_groups
   name        = each.value.name
   description = each.value.description

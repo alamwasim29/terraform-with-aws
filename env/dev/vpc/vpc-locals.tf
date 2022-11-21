@@ -10,7 +10,7 @@ locals {
   owners = var.business_division
   common_tags = {
     owners      = local.owners
-    environment = join("-", slice(split("/", path.cwd), 6, 7))
+    environment = basename(dirname(path.cwd))
   }
 }
 
@@ -25,10 +25,18 @@ locals {
       tags                = local.common_tags
     }
     private_sg = {
-      name                = "bastion-sg"
+      name                = "private-sg"
       description         = "security group for Http and ssh port open for the entire vpc cidr."
       ingress_rules       = ["ssh-tcp", "http-80-tcp"]
       ingress_cidr_blocks = [local.vpc_cidr_block]
+      egress_rules        = ["all-all"]
+      tags                = local.common_tags
+    }
+    public_sg = {
+      name                = "public-sg"
+      description         = "security group for http and ssh open for the entire internet."
+      ingress_rules       = ["ssh-tcp", "http-80-tcp"]
+      ingress_cidr_blocks = ["0.0.0.0/0"]
       egress_rules        = ["all-all"]
       tags                = local.common_tags
     }

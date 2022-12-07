@@ -1,6 +1,6 @@
 output "public_subnet_id" {
   description = "vpc public subnet id to be used in compute instances."
-  value       = module.vpc.public_subnets
+  value       = module.vpc.public_subnets[0]
 }
 
 output "public_security_group" {

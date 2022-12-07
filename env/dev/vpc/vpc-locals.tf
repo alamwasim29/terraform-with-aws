@@ -35,7 +35,7 @@ locals {
     public_sg = {
       name                = "public-sg"
       description         = "security group for http and ssh open for the entire internet."
-      ingress_rules       = ["ssh-tcp", "http-80-tcp"]
+      ingress_rules       = ["ssh-tcp", "http-8081-tcp"]
       ingress_cidr_blocks = ["0.0.0.0/0"]
       egress_rules        = ["all-all"]
       tags                = local.common_tags

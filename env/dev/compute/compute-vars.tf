@@ -15,7 +15,13 @@ variable "pub_key_name" {
   default     = "ec2-access"
 }
 
-variable "instance_count" {
+variable "pub_instance_count" {
+  description = "number of instance copy to be created."
+  type        = number
+  default     = 1
+
+}
+variable "pvt_instance_count" {
   description = "number of instance copy to be created."
   type        = number
   default     = 1

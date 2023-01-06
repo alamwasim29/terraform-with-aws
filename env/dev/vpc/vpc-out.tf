@@ -23,3 +23,8 @@ output "vpc_id" {
   value       = module.vpc.vpc_id
 
 }
+output "azs" {
+  description = "azs to be used by other resources."
+  value       = module.vpc.azs
+
+}

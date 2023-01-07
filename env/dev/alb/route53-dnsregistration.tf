@@ -3,7 +3,7 @@ resource "aws_route53_record" "app_dns" {
   name    = "apps.husna.cloud"
   type    = "A"
   alias {
-    name                   = module.alb.lb_arn
+    name                   = module.alb.lb_dns_name
     zone_id                = module.alb.lb_zone_id
     evaluate_target_health = true
   }

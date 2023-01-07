@@ -62,19 +62,18 @@ module "alb" {
       }
       protocol_version = "HTTP1"
       targets = {
-        my_app1_vm1 = {
+        my_app2_vm1 = {
           target_id = data.terraform_remote_state.compute.outputs.pvt_instance_id[2]
           port      = 80
         }
-        my_app1_vm2 = {
+        my_app2_vm2 = {
           target_id = data.terraform_remote_state.compute.outputs.pvt_instance_id[3]
           port      = 80
         }
       }
       tags = local.common_tags
-    },
+    }
   ]
-
 
   http_tcp_listeners = [
     {
@@ -87,13 +86,15 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
+
   ]
+
   https_listeners = [
     {
-      port            = 443
-      protocol        = "HTTPS"
+      port = 443
+      protocol = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
-      action_type     = "fixed_response"
+      action_type     = "fixed-response"
       fixed_response = {
         content_type = "text/plain"
         message_body = "Fixed Static message - for Root Context"
@@ -101,6 +102,7 @@ module "alb" {
       }
     },
   ]
+
   # HTTPS Listener rules
   https_listener_rules = [
     # rule-1: /app1* should go to app1 ec2 instances.
@@ -131,5 +133,6 @@ module "alb" {
     },
 
   ]
+
   tags = local.common_tags
 }

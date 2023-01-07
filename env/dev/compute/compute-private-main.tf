@@ -13,3 +13,22 @@ module "ec2_pvt" {
   user_data              = contains([for i in range(0, var.pvt_instance_count / 2) : i], count.index) ? file("../../script/app1.sh") : file("../../script/app2.sh")
   tags                   = local.common_tags
 }
+
+# resource "null_resource" "reboo_instance" {
+#   count = var.pvt_instance_count
+#   provisioner "local-exec" {
+#     on_failure  = fail
+#     # interpreter = ["/bin/sh", "-c"]
+#     command     = <<EOT
+#         echo -e "\x1B[31m Warning! Restarting instance having id ${module.ec2_pvt[count.index].id}.................. \x1B[0m"
+#         # aws ec2 reboot-instances --instance-ids ${module.ec2_pvt[count.index].id} --profile test
+#         # To stop instance
+#         aws ec2 stop-instances --instance-ids ${module.ec2_pvt[count.index].id} --profile terraform
+#         echo "***************************************Rebooted****************************************************"
+#      EOT
+#   }
+# #   this setting will trigger script every time,change it something needed
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
+# }

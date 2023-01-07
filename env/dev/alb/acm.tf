@@ -9,7 +9,5 @@ module "acm" {
     "*.husna.cloud"
   ]
 
-  tags = {
-    Name = local.common_tags
-  }
+  tags = local.common_tags
 }

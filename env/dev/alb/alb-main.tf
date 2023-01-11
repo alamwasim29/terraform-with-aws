@@ -8,7 +8,7 @@ module "alb" {
 
   vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
   subnets         = data.terraform_remote_state.vpc.outputs.pub_subnet_id
-  security_groups = [data.terraform_remote_state.vpc.outputs.pub_security_group]
+  security_groups = [data.terraform_remote_state.vpc.outputs.alb_security_group]
 
   target_groups = [
     # TG_index=0 hosting app1 in two diff subnets.
@@ -91,8 +91,8 @@ module "alb" {
 
   https_listeners = [
     {
-      port = 443
-      protocol = "HTTPS"
+      port            = 443
+      protocol        = "HTTPS"
       certificate_arn = module.acm.acm_certificate_arn
       action_type     = "fixed-response"
       fixed_response = {
@@ -115,7 +115,8 @@ module "alb" {
         }
       ]
       conditions = [{
-        path_patterns = ["/app1*"]
+        # path_patterns = ["/app1*"]
+        host_headers = [var.app1_dns_name]
       }]
     },
     # rule-2: /app2* should go to app2 ec2 instances.
@@ -128,7 +129,8 @@ module "alb" {
         }
       ]
       conditions = [{
-        path_patterns = ["/app2*"]
+        # path_patterns = ["/app2*"]
+        host_headers = [var.app2_dns_name]
       }]
     },
 

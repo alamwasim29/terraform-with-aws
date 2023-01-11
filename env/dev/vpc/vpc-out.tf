@@ -17,6 +17,11 @@ output "pvt_security_group" {
   value       = module.security["private_sg"].security_group_id
 
 }
+output "alb_security_group" {
+  description = "sg for instances in private group."
+  value       = module.security["alb_sg"].security_group_id
+
+}
 
 output "vpc_id" {
   description = "vpc id to be used by other resources."
